@@ -3,29 +3,29 @@
 # docker build --rm --no-cache -t mukeshkumar/hadoop_cluster .
 #
 # docker network create --driver bridge hadoop
-# docker create -it -p 8088:8088 -p 50070:50070 -p 50075:50075 -p 2122:2122 --net hadoop --name namenode --hostname namenode --memory 1024m --cpus 2 denivaldocruz/hadoop_cluster
-# docker run -itd --name datanode1 --net hadoop --hostname datanode1 --memory 1024m --cpus 2 denivaldocruz/hadoop_cluster
-# docker run -itd --name datanode2 --net hadoop --hostname datanode2 --memory 1024m --cpus 2 denivaldocruz/hadoop_cluster
-# docker run -itd --name datanode3 --net hadoop --hostname datanode3 --memory 1024m --cpus 2 denivaldocruz/hadoop_cluster
-# docker run -itd --name datanode4 --net hadoop --hostname datanode4 --memory 1024m --cpus 2 denivaldocruz/hadoop_cluster
-# docker run -itd --name datanode5 --net hadoop --hostname datanode5 --memory 1024m --cpus 2 denivaldocruz/hadoop_cluster
-# docker run -itd --name datanode6 --net hadoop --hostname datanode6 --memory 1024m --cpus 2 denivaldocruz/hadoop_cluster
-# docker run -itd --name datanode7 --net hadoop --hostname datanode7 --memory 1024m --cpus 2 denivaldocruz/hadoop_cluster
-# docker run -itd --name datanode8 --net hadoop --hostname datanode8 --memory 1024m --cpus 2 denivaldocruz/hadoop_cluster
+# docker create -it -p 8088:8088 -p 50070:50070 -p 50075:50075 -p 2122:2122 --net hadoop --name namenode --hostname namenode --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
+# docker run -itd --name datanode1 --net hadoop --hostname datanode1 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
+# docker run -itd --name datanode2 --net hadoop --hostname datanode2 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
+# docker run -itd --name datanode3 --net hadoop --hostname datanode3 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
+# docker run -itd --name datanode4 --net hadoop --hostname datanode4 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
+# docker run -itd --name datanode5 --net hadoop --hostname datanode5 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
+# docker run -itd --name datanode6 --net hadoop --hostname datanode6 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
+# docker run -itd --name datanode7 --net hadoop --hostname datanode7 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
+# docker run -itd --name datanode8 --net hadoop --hostname datanode8 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
 # docker start namenode
 # docker exec -it namenode //etc//bootstrap.sh start_cluster
 # docker exec -it namenode //etc//bootstrap.sh stop_cluster
 
 FROM centos:6
 
-MAINTAINER Mukesh Kumar oraclemukesh@rediffmail.com
+MAINTAINER Mukesh OracleMukesh@rediffmail.com
 
 USER root
 
 ARG ROOT_HOME=/root
 
 ARG HADOOP_VERSION=2.7.3
-ARG SPARK_VERSION=2.4.3
+ARG SPARK_VERSION=2.4.0
 ARG HBASE_VERSION=2.1.3
 ARG TEZ_VERSION=0.9.1
 ARG HIVE_VERSION=2.3.4
@@ -33,8 +33,6 @@ ARG ZOOKEEPER_VERSION=3.4.13
 ARG KAFKA_VERSION=2.1.0
 ARG MYSQL_VERSION=5.1.73-8.el6_8
 ARG MYSQL_CONNECTOR_VERSION=5.1.47
-ARG FLUME_VERSION=1.9.0
-ARG SQOOP_VERSION=1.4.7
 
 # install dev tools
 RUN yum clean all && \
@@ -70,10 +68,8 @@ ENV HIVE_HOME /usr/local/hive
 ENV HIVE_AUX_JARS_PATH=/usr/local/tez
 ENV ZOOKEEPER_HOME /usr/local/zookeeper
 ENV KAFKA_HOME /usr/local/kafka
-ENV FLUME_HOME /usr/local/flume
-ENV SQOOP_HOME /usr/local/sqoop
 ENV BOOTSTRAP /etc/bootstrap.sh
-ENV PATH $PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$SPARK_HOME/bin:$HBASE_HOME/bin:$HIVE_HOME/bin:$ZOOKEEPER_HOME/bin:$KAFKA_HOME/bin/:$FLUME_HOME/bin/:$SQOOP_HOME/bin/
+ENV PATH $PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$SPARK_HOME/bin:$HBASE_HOME/bin:$HIVE_HOME/bin:$ZOOKEEPER_HOME/bin:$KAFKA_HOME/bin/
 
 # install java
 RUN curl -L# 'https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u202-b08/OpenJDK8U-jdk_x64_linux_hotspot_8u202b08.tar.gz' | tar -xz -C /usr/local/
@@ -102,12 +98,6 @@ RUN curl -L# https://archive.apache.org/dist/zookeeper/zookeeper-${ZOOKEEPER_VER
 # Install kafka
 RUN curl -L# https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/kafka_2.11-${KAFKA_VERSION}.tgz | tar -xz -C /usr/local/
 
-# Install flume
-RUN curl -L# http://mirror.nbtelecom.com.br/apache/flume/${FLUME_VERSION}/apache-flume-${FLUME_VERSION}-bin.tar.gz | tar -xz -C /usr/local/
-
-# Install sqoop
-RUN curl -L# http://mirror.nbtelecom.com.br/apache/sqoop/${SQOOP_VERSION}/sqoop-${SQOOP_VERSION}.bin__hadoop-2.6.0.tar.gz | tar -xz -C /usr/local/
-
 # Remove downloaded files
 RUN rm -f OpenJDK8U-jdk_x64_linux_hotspot_8u202b08.tar.gz hadoop-${HADOOP_VERSION}.tar.gz spark-${SPARK_VERSION}-bin-hadoop2.7.tgz hbase-${HBASE_VERSION}-bin.tar.gz mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.tar.gz apache-tez-${TEZ_VERSION}-bin.tar.gz apache-hive-${HIVE_VERSION}-bin.tar.gz zookeeper-${ZOOKEEPER_VERSION}.tar.gz kafka_2.11-${KAFKA_VERSION}.tgz
 
@@ -122,9 +112,7 @@ RUN rm -f /usr/bin/java && \
     ln -s ./apache-tez-${TEZ_VERSION}-bin $TEZ_HOME && \
     ln -s ./apache-hive-${HIVE_VERSION}-bin $HIVE_HOME && \
     ln -s ./zookeeper-${ZOOKEEPER_VERSION} $ZOOKEEPER_HOME && \
-    ln -s ./kafka_2.11-${KAFKA_VERSION} $KAFKA_HOME && \
-    ln -s ./apache-flume-${FLUME_VERSION}-bin $FLUME_HOME && \
-    ln -s ./sqoop-${SQOOP_VERSION}.bin__hadoop-2.6.0 $SQOOP_HOME
+    ln -s ./kafka_2.11-${KAFKA_VERSION} $KAFKA_HOME
 
 # add config files
 ADD etc/hadoop/core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml
@@ -180,8 +168,6 @@ RUN echo 'export JAVA_HOME=/usr/local/java' >> /etc/bashrc && \
 #    echo 'export HADOOP_CLASSPATH=/usr/local/tez/bin:/usr/local/tez/*:/usr/local/tez/lib/*:$HADOOP_CLASSPATH' >> /etc/bashrc && \
     echo 'export ZOOKEEPER_HOME=/usr/local/zookeeper' >> /etc/bashrc && \
     echo 'export KAFKA_HOME=/usr/local/kafka' >> /etc/bashrc && \
-    echo 'export FLUME_HOME=/usr/local/flume' >> /etc/bashrc && \
-    echo 'export SQOOP_HOME=/usr/local/sqoop' >> /etc/bashrc && \
     echo 'export BOOTSTRAP=/etc/bootstrap.sh' >> /etc/bashrc && \
     echo 'export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$SPARK_HOME/bin:$HBASE_HOME/bin:$HIVE_HOME/bin:$ZOOKEEPER_HOME/bin:$KAFKA_HOME/bin' >> /etc/bashrc && \
     echo 'export SPARK_MAJOR_VERSION=2' >> /etc/bashrc
@@ -200,14 +186,6 @@ RUN $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
     $HADOOP_HOME/bin/hdfs namenode -format
 
 ADD bootstrap.sh /etc/bootstrap.sh
-
-RUN cp /usr/local/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}-bin.jar $FLUME_HOME/lib/mysql-connector-java.jar
-RUN cp /usr/local/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}-bin.jar $SQOOP_HOME/lib/mysql-connector-java.jar
-
-# Install Tez
-RUN curl -L# https://www-eu.apache.org/dist/tez/${TEZ_VERSION}/apache-tez-${TEZ_VERSION}-bin.tar.gz | tar -xzv -C /usr/local/
-
-RUN echo 'export HADOOP_CLASSPATH=/usr/local/tez/bin:/usr/local/tez/*:/usr/local/tez/lib/*:$HADOOP_CLASSPATH' >> /etc/bashrc
 
 CMD ["/etc/bootstrap.sh", "-d"]
 
