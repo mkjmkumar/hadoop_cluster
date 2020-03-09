@@ -192,6 +192,6 @@ $KAFKA_HOME/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list name
 ### Known issues
 * Spark application master is not reachable from host system
 * HBase and Kafka services do not start automatically sometimes (increasing memory of the container might solve this issue)
-* No proper PySpark setup
+* No proper PySpark setup(resolved at https://www.linkedin.com/pulse/solved-starting-pyspark-generates-nameerror-name-mukesh-kumar-)
 * Unable to get Hive to work on Tez (current default MapReduce)
 * In case docker container Existed with EOL error then please change Windows CRLF to LF to all shell scripts, more you can find at https://willi.am/blog/2016/08/11/docker-for-windows-dealing-with-windows-line-endings/
