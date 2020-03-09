@@ -58,6 +58,7 @@ docker run -itd --name datanode2 --net hadoop --hostname datanode2 --memory 1024
 ```
 docker start datanode1
 docker start datanode2
+```
 
 ### Start namenode container
 ```
@@ -80,7 +81,7 @@ vi /usr/local/hadoop/etc/hadoop/slaves
 ### Start cluster
 ```
 docker exec -it namenode /etc/bootstrap.sh start_cluster
-```
+
 Starting mysqld:                                           [  OK  ]
 ZooKeeper JMX enabled by default
 Using config: /usr/local/zookeeper/bin/../conf/zoo.cfg
@@ -103,9 +104,9 @@ After few minutes, you should be able to view Resource Manager UI at
 ### After some time you should be able to browse the cluster from URI
 ```
 http://localhost:8088
-
+```
 You should be able to access the HDFS UI at
-
+```
 http://localhost:50070
 
 ## Credentials
