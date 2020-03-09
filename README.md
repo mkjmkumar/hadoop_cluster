@@ -54,11 +54,12 @@ docker run -itd --name datanode1 --net hadoop --hostname datanode1 --memory 1024
 docker run -itd --name datanode2 --net hadoop --hostname datanode2 --memory 1024m --cpus 2 hadoop_cluster
 ...
 ```
-Start datanode container(In my case I am running two data node cluster)
+### Start datanode container(In my case I am running two data node cluster)
+```
 docker start datanode1
 docker start datanode2
 
-Start namenode container
+### Start namenode container
 ```
 docker start namenode
 ```
