@@ -108,7 +108,7 @@ http://localhost:8088
 You should be able to access the HDFS UI at
 ```
 http://localhost:50070
-
+```
 ## Credentials
 You can connect through SSH and SFTP clients to the namenode of the cluster using port 2122
 ```
