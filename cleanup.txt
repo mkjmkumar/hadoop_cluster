@@ -51,5 +51,27 @@ to Docker on Windows. But in case you are using Docker EE(Engine – Enterprise)
 
 So as of now you got the idea that Hadoop uses certain ports to communicated with datanode and expose http URI for hdfs.
 
-Now lets say my Hyper-V enabled and docker is not installed yet, that means Hyper-V reserve some ports to switch communication between linux and windows systems. 
-Run below command;-
+Now lets say my Hyper-V enabled and it reserve some ports to switch communication between linux and windows systems. 
+netsh interface ipv4 show excludedportrange protocol=tcp
+     49848       49947      
+     50000       50059 
+     50160       50259      
+     50260       50359      
+     50360       50459      
+     50460       50559      
+     50780       50879      
+     55609       55708 
+
+Now as per the documentation from Hadoop below is the snippet to showcase the default ports used by Hadoop:-
+More you can find at https://ambari.apache.org/1.2.3/installing-hadoop-using-ambari/content/reference_chap2_1.html
+
+Daemon                   Default Port  Configuration Parameter
+-----------------------  ------------ ----------------------------------
+Namenode                 50070        dfs.http.address
+Datanodes                50075        dfs.datanode.http.address
+Secondarynamenode        50090        dfs.secondary.http.address
+Backup/Checkpoint node?  50105        dfs.backup.http.address
+Jobracker                50030        mapred.job.tracker.http.address
+Tasktrackers             50060        mapred.task.tracker.http.address
+
+So from above two it clearly understood that port conflic would happen if go and run Hadoop container on docker. I have had this error and resolved by following the below steps:-
