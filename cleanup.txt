@@ -1,0 +1,55 @@
+docker container list
+
+docker kill 30bce9263026  0c7f7a87f117  3b0dadadf5d0
+
+docker container list -a
+
+docker container rm namenode
+
+docker container rm datanode1
+
+docker container rm datanode2
+
+docker network rm hadoop
+
+docker network create --driver bridge hadoop
+
+docker create -it -p 8088:8088 -p 50070:50070 -p 50075:50075 -p 2122:2122  --net hadoop --name namenode --hostname namenode --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
+
+
+Create and start datanode containers with the Docker image you have just built or pulled (upto 8 datanodes currently possible, to add more edit "/usr/local/hadoop/etc/hadoop/slaves" and restart the cluster)
+
+
+docker run -itd --name datanode1 --net hadoop --hostname datanode1 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
+
+docker run -itd --name datanode2 --net hadoop --hostname datanode2 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
+
+docker start namenode
+
+If building image from docker file before starting cluster just update the /usr/local/hadoop/etc/hadoop/slaves with IP addresses.
+docker exec -it namenode bash
+vi /usr/local/hadoop/etc/hadoop/slaves
+Enter IP of datanode1 and datanode2
+
+docker exec -it namenode //etc//bootstrap.sh start_cluster
+
+Test to go at bash of node - docker exec -it namenode bash
+
+
+Resource Manager UI at
+
+http://localhost:8088
+
+You should be able to access the HDFS UI at
+
+http://localhost:50070
+
+Solved : Protocol tcp Port Exclusion Ranges issues when running Hadoop on Docker
+
+When we run Docker community edition-CE (https://docs.docker.com/docker-for-windows/install/) on Microsoft Windows, under system requriement it clearly says "Hyper-V and Containers Windows features must be enabled." 
+to Docker on Windows. But in case you are using Docker EE(Engine – Enterprise) you might not requried the Hyper-V enabled. I think we developers might not going to use docker EE just because Hyper-V reserve some ports those are required by Hadoop default configurations. 
+
+So as of now you got the idea that Hadoop uses certain ports to communicated with datanode and expose http URI for hdfs.
+
+Now lets say my Hyper-V enabled and docker is not installed yet, that means Hyper-V reserve some ports to switch communication between linux and windows systems. 
+Run below command;-

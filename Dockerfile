@@ -1,17 +1,17 @@
 # Creates distributed hadoop cluster with hadoop, spark, hbase, hive, kafka and zookeeper
 #
-# docker build --rm --no-cache -t mukeshkumar/hadoop_cluster .
+# docker build --rm --no-cache -t hadoop_cluster .
 #
 # docker network create --driver bridge hadoop
-# docker create -it -p 8088:8088 -p 50070:50070 -p 50075:50075 -p 2122:2122 --net hadoop --name namenode --hostname namenode --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
-# docker run -itd --name datanode1 --net hadoop --hostname datanode1 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
-# docker run -itd --name datanode2 --net hadoop --hostname datanode2 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
-# docker run -itd --name datanode3 --net hadoop --hostname datanode3 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
-# docker run -itd --name datanode4 --net hadoop --hostname datanode4 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
-# docker run -itd --name datanode5 --net hadoop --hostname datanode5 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
-# docker run -itd --name datanode6 --net hadoop --hostname datanode6 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
-# docker run -itd --name datanode7 --net hadoop --hostname datanode7 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
-# docker run -itd --name datanode8 --net hadoop --hostname datanode8 --memory 1024m --cpus 2 mukeshkumar/hadoop_cluster
+# docker create -it -p 8088:8088 -p 50070:50070 -p 50075:50075 -p 2122:2122 --net hadoop --name namenode --hostname namenode --memory 1024m --cpus 2 hadoop_cluster
+# docker run -itd --name datanode1 --net hadoop --hostname datanode1 --memory 1024m --cpus 2 hadoop_cluster
+# docker run -itd --name datanode2 --net hadoop --hostname datanode2 --memory 1024m --cpus 2 hadoop_cluster
+# docker run -itd --name datanode3 --net hadoop --hostname datanode3 --memory 1024m --cpus 2 hadoop_cluster
+# docker run -itd --name datanode4 --net hadoop --hostname datanode4 --memory 1024m --cpus 2 hadoop_cluster
+# docker run -itd --name datanode5 --net hadoop --hostname datanode5 --memory 1024m --cpus 2 hadoop_cluster
+# docker run -itd --name datanode6 --net hadoop --hostname datanode6 --memory 1024m --cpus 2 hadoop_cluster
+# docker run -itd --name datanode7 --net hadoop --hostname datanode7 --memory 1024m --cpus 2 hadoop_cluster
+# docker run -itd --name datanode8 --net hadoop --hostname datanode8 --memory 1024m --cpus 2 hadoop_cluster
 # docker start namenode
 # docker exec -it namenode //etc//bootstrap.sh start_cluster
 # docker exec -it namenode //etc//bootstrap.sh stop_cluster
