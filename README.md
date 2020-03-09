@@ -15,6 +15,7 @@ If you would like to try directly from the Dockerfile you can build the image as
 ```
 docker build --rm --no-cache -t mukeshkumarmavenwavecom/hadoop_cluster .
 ```
+## Build Manually using DockerFile from my github repo
 ## Pull docker file from github
 ```
 git clone https://github.com/mkjmkumar/hadoop_cluster.git
