@@ -16,17 +16,17 @@ If you would like to try directly from the Dockerfile you can build the image as
 docker build --rm --no-cache -t mukeshkumarmavenwavecom/hadoop_cluster .
 ```
 ## Pull docker file from github
-
+```
 git clone https://github.com/mkjmkumar/hadoop_cluster.git
-
+```
 ## go to dockerfile folder 
-
-cd mkjmkumar
-
+```
+cd hadoop_cluster
+```
 ## Build the image from docker file
-
+```
 docker build --rm --no-cache -t hadoop_cluster .
-
+```
 # Create network, containers and start cluster
 
 ## Through script
@@ -54,13 +54,11 @@ docker run -itd --name datanode1 --net hadoop --hostname datanode1 --memory 1024
 docker run -itd --name datanode2 --net hadoop --hostname datanode2 --memory 1024m --cpus 2 hadoop_cluster
 ...
 ```
-### Start datanode container(In my case I am running two data node cluster)
-```
+Start datanode container(In my case I am running two data node cluster)
 docker start datanode1
 docker start datanode2
-```
 
-### Start namenode container
+Start namenode container
 ```
 docker start namenode
 ```
@@ -81,7 +79,7 @@ vi /usr/local/hadoop/etc/hadoop/slaves
 ### Start cluster
 ```
 docker exec -it namenode /etc/bootstrap.sh start_cluster
-
+```
 Starting mysqld:                                           [  OK  ]
 ZooKeeper JMX enabled by default
 Using config: /usr/local/zookeeper/bin/../conf/zoo.cfg
@@ -104,11 +102,11 @@ After few minutes, you should be able to view Resource Manager UI at
 ### After some time you should be able to browse the cluster from URI
 ```
 http://localhost:8088
-```
+
 You should be able to access the HDFS UI at
-```
+
 http://localhost:50070
-```
+
 ## Credentials
 You can connect through SSH and SFTP clients to the namenode of the cluster using port 2122
 ```
@@ -129,9 +127,70 @@ $KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper namenode:2181 --replication
 $KAFKA_HOME/bin/kafka-console-producer.sh --broker-list namenode:9092 --topic msgtopic
 
 $KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server namenode:9092 --topic msgtopic --from-beginning
+
+$KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper namenode:2181 --replication-factor 3 --partitions 1 --topic mukeshtopic
 ```
+
+### List TOPIC
+```
+$KAFKA_HOME/bin/kafka-topics.sh --list --zookeeper namenode:2181
+```
+### Describe a TOPIC
+```
+$KAFKA_HOME/bin/kafka-topics.sh --zookeeper  namenode:2181 --describe --topic mukeshtopic
+```
+
+$KAFKA_HOME/bin/kafka-configs.sh --zookeeper namenode:2181 --describe --entity-name mukeshtopic --entity-type topics
+
+
+
+### Delete TOPIC
+```
+$KAFKA_HOME/bin/kafka-topics.sh --delete --zookeeper namenode:2181 --topic mukeshtopic
+```
+### Use case : Delete Topic
+METHOD 1 : Delete Topic and recreate it.
+Follow above commands to delete and create a topic again.
+
+METHOD2 : Alter Topic retention period to milliseconds and Alter Back to original
+Check Retension period
+```
+$KAFKA_HOME/bin/kafka-configs.sh --zookeeper namenode:2181 --describe --entity-type topics --entity-name mukeshtopic
+```
+Set Retension period
+# Deprecated way
+```
+$KAFKA_HOME/bin/kafka-topics.sh --zookeeper namenode:2181 --alter --topic mukeshtopic --config retention.ms=1000
+```
+# Modern way
+$KAFKA_HOME/bin/kafka-configs.sh --zookeeper namenode:2181 --alter --entity-type topics --entity-name mukeshtopic --add-config retention.ms=2000
+
+METHOD3 : Goto Topic Folder and delete all Segments
+### Describe a topic
+```
+$KAFKA_HOME/bin/kafka-topics.sh --describe --zookeeper namenode:2181 --topic mukeshtopic
+```
+### Add a partition
+```
+$KAFKA_HOME/bin/kafka-topics.sh --alter --zookeeper namenode:2181 --topic mukeshtopic --partitions 4
+```
+### Push a file of messages to Kafka
+```
+$KAFKA_HOME/bin/kafka-console-producer.sh --broker-list namenode:9092 --topic mukeshtopic < zookeeper.out
+```
+### Get the earliest offset still in a topic
+```
+$KAFKA_HOME/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list namenode:9092 --topic mukeshtopic --time -2
+```
+
+### 
+```
+
+```
+
 ### Known issues
 * Spark application master is not reachable from host system
 * HBase and Kafka services do not start automatically sometimes (increasing memory of the container might solve this issue)
 * No proper PySpark setup
 * Unable to get Hive to work on Tez (current default MapReduce)
+* In case docker container Existed with EOL error then please change Windows CRLF to LF to all shell scripts, more you can find at https://willi.am/blog/2016/08/11/docker-for-windows-dealing-with-windows-line-endings/
