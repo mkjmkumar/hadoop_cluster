@@ -81,7 +81,7 @@ vi /usr/local/hadoop/etc/hadoop/slaves
 ### Start cluster
 ```
 docker exec -it namenode /etc/bootstrap.sh start_cluster
-```
+
 Starting mysqld:                                           [  OK  ]
 ZooKeeper JMX enabled by default
 Using config: /usr/local/zookeeper/bin/../conf/zoo.cfg
@@ -97,6 +97,7 @@ starting resourcemanager, logging to /usr/local/hadoop/logs/yarn--resourcemanage
 : starting nodemanager, logging to /usr/local/hadoop/logs/yarn-root-nodemanager-datanode2.out
 : starting nodemanager, logging to /usr/local/hadoop/logs/yarn-root-nodemanager-datanode1.out
 SLF4J: Class path contains multiple SLF4J bindings.
+```
 After few minutes, you should be able to view Resource Manager UI at
 ..
 ..
