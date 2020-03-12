@@ -193,7 +193,7 @@ $KAFKA_HOME/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list name
 
 ### Known issues
 * Spark application master is not reachable from host system
-* HBase and Kafka services do not start automatically sometimes (increasing memory of the container might solve this issue)
+* HBase and Kafka services do not start automatically sometimes (increasing memory of the container might solve this issue) or (In case Hbase is throwing error "ERROR: KeeperErrorCode = NoNode for /hbase/master", reason could be Hbase not started automatically. Therefore "/usr/local/hbase/bin/stop-hbase.sh" and "/usr/local/hbase/bin/start-hbase.sh" solve the Hbase issue.)
 * No proper PySpark setup(resolved at https://www.linkedin.com/pulse/solved-starting-pyspark-generates-nameerror-name-mukesh-kumar-)
 * Unable to get Hive to work on Tez (current default MapReduce)
 * In case docker container Existed with EOL error then please change Windows CRLF to LF to all shell scripts, more you can find at https://willi.am/blog/2016/08/11/docker-for-windows-dealing-with-windows-line-endings/
