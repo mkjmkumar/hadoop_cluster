@@ -47,7 +47,7 @@ docker network create --driver bridge hadoop
 ### Create and start containers
 Create a namenode container with the Docker image you have just built or pulled
 ```
-docker create -it -p 8088:8088 -p 50070:50070 -p 50075:50075 -p 2122:2122  --net hadoop --name namenode --hostname namenode --memory 1024m --cpus 2 hadoop_cluster
+docker create -it -p 8088:8088 -p 50070:50070 -p 50075:50075 -p 2122:2122 -p 7077:7077 -p 8081:8081 -p 8080:8080 --net hadoop --name namenode --hostname namenode --memory 1024m --cpus 2 hadoop_cluster
 ```
 Create and start datanode containers with the Docker image you have just built or pulled (upto 8 datanodes currently possible, to add more edit "/usr/local/hadoop/etc/hadoop/slaves" and restart the cluster)
 ```
