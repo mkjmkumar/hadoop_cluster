@@ -110,6 +110,9 @@ You should be able to access the HDFS UI at
 
 http://localhost:50070
 
+You should be able to access the SPark Master WebUI at
+http://localhost:8080/
+
 ## Credentials
 You can connect through SSH and SFTP clients to the namenode of the cluster using port 2122
 ```
@@ -185,12 +188,36 @@ $KAFKA_HOME/bin/kafka-console-producer.sh --broker-list namenode:9092 --topic mu
 ```
 $KAFKA_HOME/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list namenode:9092 --topic mukeshtopic --time -2
 ```
+### Running PySpark in Local Mode 
+```
+pyspark local[2]
+```
+### Running PySpark in Spark Master Mode
+```
+pyspark --master spark://namenode:7077
+```
+### In Case you face any issue starting when Spark Master and Worker are not running(Use jps command to verify), use below command to start Spark Manually  
+```
+cd $SPARK_HOME/sbin
+./start-all.sh
+```
 
+### Connect to Spark with MySQL Database(Local)
+```
+from pyspark.sql import SQLContext
+sqlContext = SQLContext(sc)
+dataframe_mysql = sqlContext.read.format("jdbc").options(url="jdbc:mysql://localhost/information_schema",driver = "com.mysql.jdbc.Driver",dbtable = "TABLES",user="root").load()
+>>> dataframe_mysql.show(10)
++-------------+------------------+--------------------+-----------+------+-------+----------+----------+--------------+-----------+---------------+------------+---------+--------------+-------------------+-------------------+----------+---------------+--------+--------------+-------------+
+|TABLE_CATALOG|      TABLE_SCHEMA|          TABLE_NAME| TABLE_TYPE|ENGINE|VERSION|ROW_FORMAT|TABLE_ROWS|AVG_ROW_LENGTH|DATA_LENGTH|MAX_DATA_LENGTH|INDEX_LENGTH|DATA_FREE|AUTO_INCREMENT|        CREATE_TIME|        UPDATE_TIME|CHECK_TIME|TABLE_COLLATION|CHECKSUM|CREATE_OPTIONS|TABLE_COMMENT|
++-------------+------------------+--------------------+-----------+------+-------+----------+----------+--------------+-----------+---------------+------------+---------+--------------+-------------------+-------------------+----------+---------------+--------+--------------+-------------+
+|         null|information_schema|      CHARACTER_SETS|SYSTEM VIEW|MEMORY|     10|     Fixed|      null|           384|          0|       16434816|           0|        0|          null|2020-03-16 19:17:29|               null|      null|utf8_general_ci|    null|max_rows=43690|             |
+| 
+```
 ### 
 ```
 
 ```
-
 ### Known issues
 * Spark application master is not reachable from host system
 * HBase and Kafka services do not start automatically sometimes (increasing memory of the container might solve this issue) or (In case Hbase is throwing error "ERROR: KeeperErrorCode = NoNode for /hbase/master", reason could be Hbase not started automatically. Therefore "/usr/local/hbase/bin/stop-hbase.sh" and "/usr/local/hbase/bin/start-hbase.sh" solve the Hbase issue.)
