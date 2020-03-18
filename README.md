@@ -201,7 +201,10 @@ pyspark --master spark://namenode:7077
 cd $SPARK_HOME/sbin
 ./start-all.sh
 ```
-
+### To Add additional worker Manually 
+```
+./start-slave.sh spark://namenode:7077
+```
 ### Connect to Spark with MySQL Database(Local)
 ```
 from pyspark.sql import SQLContext
