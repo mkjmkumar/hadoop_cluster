@@ -203,8 +203,20 @@ cd $SPARK_HOME/sbin
 ```
 ### To Add additional worker Manually 
 ```
+Worker on Master Node
 ./start-slave.sh spark://namenode:7077
+Additional Workers 
+cp slaves.template slaves
+
+Add worker list in slaves file
 ```
+
+### To view Spark UI 
+
+```
+http://localhost:8080/
+```
+
 ### Connect to Spark with MySQL Database(Local)
 ```
 from pyspark.sql import SQLContext
