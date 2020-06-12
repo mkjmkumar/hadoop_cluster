@@ -229,6 +229,36 @@ dataframe_mysql = sqlContext.read.format("jdbc").options(url="jdbc:mysql://local
 |         null|information_schema|      CHARACTER_SETS|SYSTEM VIEW|MEMORY|     10|     Fixed|      null|           384|          0|       16434816|           0|        0|          null|2020-03-16 19:17:29|               null|      null|utf8_general_ci|    null|max_rows=43690|             |
 | 
 ```
+
+### Print Schema 
+```
+
+
+>>> df_mysql.printSchema()
+root
+ |-- TABLE_CATALOG: string (nullable = true)
+ |-- TABLE_SCHEMA: string (nullable = true)
+ |-- TABLE_NAME: string (nullable = true)
+ |-- TABLE_TYPE: string (nullable = true)
+ |-- ENGINE: string (nullable = true)
+ |-- VERSION: decimal(20,0) (nullable = true)
+ |-- ROW_FORMAT: string (nullable = true)
+ |-- TABLE_ROWS: decimal(20,0) (nullable = true)
+ |-- AVG_ROW_LENGTH: decimal(20,0) (nullable = true)
+ |-- DATA_LENGTH: decimal(20,0) (nullable = true)
+ |-- MAX_DATA_LENGTH: decimal(20,0) (nullable = true)
+ |-- INDEX_LENGTH: decimal(20,0) (nullable = true)
+ |-- DATA_FREE: decimal(20,0) (nullable = true)
+ |-- AUTO_INCREMENT: decimal(20,0) (nullable = true)
+ |-- CREATE_TIME: timestamp (nullable = true)
+ |-- UPDATE_TIME: timestamp (nullable = true)
+ |-- CHECK_TIME: timestamp (nullable = true)
+ |-- TABLE_COLLATION: string (nullable = true)
+ |-- CHECKSUM: decimal(20,0) (nullable = true)
+ |-- CREATE_OPTIONS: string (nullable = true)
+ |-- TABLE_COMMENT: string (nullable = true)
+```
+
 ### 
 ```
 
