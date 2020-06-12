@@ -316,7 +316,7 @@ only showing top 10 rows
 ... )
 ```
 
-### Notice the Pushed Filter Above
+### Notice the Pushed Filter Above Explain Command
 ```
 PushedFilters: [*IsNotNull(ROW_FORMAT), *IsNotNull(AVG_ROW_LENGTH), *EqualTo(ROW_FORMAT,Fixed), *GreaterThan(AVG...
 ```
